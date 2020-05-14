@@ -20,7 +20,7 @@ class TLDetector(object):
     def __init__(self):
         rospy.init_node('tl_detector')
         self.frame = 0
-        self.frame_d = 5
+        self.frame_d = 2
         self.pose = None
         self.waypoints = None
         self.camera_image = None
@@ -46,9 +46,12 @@ class TLDetector(object):
         self.next_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
         is_site = self.config['is_site']
-        graph_file = 'my_model_final_styx.pb'
         if is_site:
             graph_file = 'my_model_final_site.pb'
+            print('detector: site')
+        else:
+            graph_file = 'my_model_final_styx.pb'
+            print('detector: styx')
 
         self.graph = tensorflow.Graph()
 
